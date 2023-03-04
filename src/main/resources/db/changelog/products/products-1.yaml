@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: products-1
+      author: nfrolkov
+      changes:
+        - createTable:
+            tableName: products
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+                    unique: true
+                    uniqueConstraintName: products_name_unique
+              - column:
+                  name: barcode
+                  type: varchar(200)
+                  constraints:
+                    unique: true
+                    uniqueConstraintName: products_barcode_unique
+              - column:
+                  name: ccals
+                  type: numeric(6,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: proteins
+                  type: numeric(6,2)
+                  defaultValueNumeric: 0
+              - column:
+                  name: carbs
+                  type: numeric(6,2)
+                  defaultValueNumeric: 0
+              - column:
+                  name: fats
+                  type: numeric(6,2)
+                  defaultValueNumeric: 0
+              - column:
+                  name: weight
+                  type: numeric(6,2)
+                  defaultValueNumeric: 100

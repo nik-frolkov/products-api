@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+  liquibase:
+    enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    hibernate:
+      ddl-auto: none
+
