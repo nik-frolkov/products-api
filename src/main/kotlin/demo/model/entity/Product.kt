@@ -4,37 +4,33 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import lombok.AllArgsConstructor
 import lombok.Data
 import lombok.NoArgsConstructor
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "PRODUCTS")
-class Product(
-    @Column(name = "name", nullable = false)
-    val name: String,
-    @Column(name = "barcode")
-    val barcode: String?,
-    @Column(name = "ccals", nullable = false)
-    val ccals: Double,
-    @Column(name = "proteins")
-    val proteins: Double? = 0.00,
-    @Column(name = "carbs")
-    val carbs: Double? = 0.00,
-    @Column(name = "fats")
-    val fats: Double? = 0.00,
-    @Column(name = "weight")
-    val weight: Double? = 100.00
+data class Product(
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "id", nullable = false)
+        @JsonIgnore
+        val id: Long = 0,
+        @Column(name = "name", nullable = false)
+        val name: String,
+        @Column(name = "ccals", nullable = false)
+        var ccals: Double
 ) {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    @JsonIgnore
-    val id: Long = 0
+    @Column(name = "barcode")
+    var barcode: String? = null
+
+    @Column(name = "proteins")
+    var proteins: Double = 0.00
+
+    @Column(name = "carbs")
+    var carbs: Double = 0.00
+
+    @Column(name = "fats")
+    var fats: Double = 0.00
 }

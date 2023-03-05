@@ -1,38 +1,31 @@
 package demo.controller
 
-import demo.model.entity.Product
+import demo.controller.ProductController.Companion.PRODUCTS_URL
 import demo.model.ProductCreateDto
+import demo.model.entity.Product
 import demo.service.ProductService
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatus.NO_CONTENT
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("products")
-class ProductController(val productService: ProductService) {
+@RequestMapping(PRODUCTS_URL)
+class ProductController(
+        val productService: ProductService
+) {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    fun createProduct(@RequestBody products: List<ProductCreateDto>): List<Long> {
-        return productService.createProduct(products)
-    }
+    fun createProduct(@RequestBody products: List<ProductCreateDto>): List<Long> =
+            productService.createProduct(products)
 
     @GetMapping(params = ["id"])
-    fun getProductById(@RequestParam("id") id: Long): Product {
-        return productService.getProductById(id)
-    }
+    fun getProductById(@RequestParam("id") id: Long): Product =
+            productService.getProductById(id)
 
     @GetMapping(params = ["names"])
-    fun getProductsByNames(@RequestParam("names") names: Set<String>): List<Product> {
-        return productService.getProductsByNames(names)
-    }
+    fun getProductsByNames(@RequestParam("names") names: Set<String>): List<Product> =
+            productService.getProductsByNames(names)
 
     @GetMapping(params = ["barcodes"])
     fun getProductsByBarcodes(@RequestParam("barcodes") barcodes: Set<String>): List<Product> {
@@ -46,8 +39,13 @@ class ProductController(val productService: ProductService) {
     }
 
     @ResponseStatus(NO_CONTENT)
-    @DeleteMapping(params = ["barcodes"])
-    fun deleteProductsByBarcodes(@RequestParam("barcodes") barcodes: Set<String>) {
+    @DeleteMapping(params = [BARCODES_PARAM])
+    fun deleteProductsByBarcodes(@RequestParam(BARCODES_PARAM) barcodes: Set<String>) {
         productService.deleteProductsByBarcodes(barcodes)
+    }
+
+    companion object {
+        const val PRODUCTS_URL = "products"
+        const val BARCODES_PARAM = "barcodes"
     }
 }

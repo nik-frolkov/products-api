@@ -1,25 +1,21 @@
 package demo.service
 
 import demo.mapper.ProductMapper
-import demo.model.entity.Product
 import demo.model.ProductCreateDto
+import demo.model.entity.Product
 import demo.repository.ProductRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.stream.Collectors
 
 @Service
 class ProductService(
-    val productRepository: ProductRepository,
-    val productMapper: ProductMapper
-    ) {
+        val productRepository: ProductRepository,
+        val productMapper: ProductMapper
+) {
 
-    fun createProduct(products: List<ProductCreateDto>): List<Long> {
-        val savedProducts = productRepository.saveAll(productMapper.toProduct(products))
-        return savedProducts.stream()
-            .map(Product::id)
-            .collect(Collectors.toList())
-    }
+    fun createProduct(products: List<ProductCreateDto>): List<Long> =
+            productRepository.saveAll(productMapper.toProduct(products))
+                    .map { it.id }
 
     fun getProductById(id: Long): Product {
         return productRepository.getById(id);
